@@ -1,11 +1,36 @@
 class Room {
-    int roomId;
+    String roomId;  // Changed to String for unique ID generation
     String type;
-    boolean isAvailable;
+    int inventory;  // Track inventory count
 
-    Room(int roomId, String type) {
+    Room(String roomId, String type, int initialInventory) {
         this.roomId = roomId;
         this.type = type;
-        this.isAvailable = true;
+        this.inventory = initialInventory;
+    }
+
+    boolean hasAvailability() {
+        return inventory > 0;
+    }
+
+    synchronized boolean decrementInventory() {
+        if (inventory > 0) {
+            inventory--;
+            return true;
+        }
+        return false;
+    }
+
+    synchronized void incrementInventory() {
+        inventory++;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "ID='" + roomId + '\'' +
+                ", Type='" + type + '\'' +
+                ", Available=" + inventory +
+                '}';
     }
 }
